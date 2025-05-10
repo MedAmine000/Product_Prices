@@ -9,6 +9,10 @@ from scrapy import signals
 from itemadapter import ItemAdapter
 
 
+class ProxyMiddleware:
+    def process_request(self, request, spider):
+        request.meta['proxy'] = "http://161.35.70.249:8080"
+
 class PriceMonitorSpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the

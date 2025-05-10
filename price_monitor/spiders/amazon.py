@@ -1,8 +1,10 @@
 from .base_spider import BaseSpider
+import json
 
 
 class AmazonSpider(BaseSpider):
     name = "amazon"
+
 
     def parse(self, response):
         item = response.meta.get('item', {})

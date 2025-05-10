@@ -43,6 +43,10 @@ ROBOTSTXT_OBEY = False
 #    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 #    "Accept-Language": "en",
 #}
+# DEFAULT_REQUEST_HEADERS = {
+#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+#     'Accept-Language': 'en-US,en;q=0.9',
+# }
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
@@ -54,7 +58,11 @@ ROBOTSTXT_OBEY = False
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
 #    "price_monitor.middlewares.PriceMonitorDownloaderMiddleware": 543,
+
 #}
+# DOWNLOADER_MIDDLEWARES = {
+#     'price_monitor.middlewares.ProxyMiddleware': 350,
+# }
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -67,6 +75,12 @@ ROBOTSTXT_OBEY = False
 #ITEM_PIPELINES = {
 #    "price_monitor.pipelines.PriceMonitorPipeline": 300,
 #}
+# ITEM_PIPELINES = {
+#     'price_monitor.pipelines.MongoDBPipeline': 300,
+# }
+
+# MONGO_URI = 'mongodb://localhost:27017'
+# MONGO_DATABASE = 'price_monitor'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -91,3 +105,4 @@ ROBOTSTXT_OBEY = False
 
 # Set settings whose default value is deprecated to a future-proof value
 FEED_EXPORT_ENCODING = "utf-8"
+# DOWNLOAD_TIMEOUT = 300  # Augmente le délai d'attente à 300 secondes

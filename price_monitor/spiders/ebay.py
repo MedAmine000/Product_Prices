@@ -37,8 +37,8 @@ class EbaySpider(BaseSpider):
         )
 
         # Sauvegarder le HTML rendu pour le débogage
-        with open("ebay_rendered.html", "w", encoding="utf-8") as f:
-            f.write(rendered_body)
+        # with open("ebay_rendered.html", "w", encoding="utf-8") as f:
+        #     f.write(rendered_body)
 
         item = response.meta.get('item', {})
         item['url'] = response.url

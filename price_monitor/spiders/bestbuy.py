@@ -45,11 +45,11 @@ class BestbuySpider(BaseSpider):
             request=response.request  # Associer la requête originale
         )
         # Sauvegarder le HTML rendu pour le débogage
-        with open("bestbuy_rendered.html", "w", encoding="utf-8") as f:
-            f.write(rendered_body)
+        # with open("bestbuy_rendered.html", "w", encoding="utf-8") as f:
+        #     f.write(rendered_body)
 
         # Créer l’item
-        item = {}
+        item = response.meta.get('item', {})
         item['url'] = response.url
 
         # Extraire le titre en utilisant la méthode CSS
