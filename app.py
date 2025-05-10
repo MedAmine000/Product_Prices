@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 import json
 import subprocess
 import os
+from pymongo import MongoClient
 
 app = Flask(__name__)
 
@@ -43,7 +44,6 @@ def index():
 
 @app.route("/results")
 def results():
-    from pymongo import MongoClient
     client = MongoClient("mongodb://localhost:27017/")
     db = client["price_monitor"]
     collections = db.list_collection_names()
