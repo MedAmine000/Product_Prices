@@ -14,6 +14,9 @@ def main():
     os.makedirs("outputs", exist_ok=True)
 
     filename = f"outputs/{spider_name}_{product_name.replace(' ', '_')}.json"
+    # Supprimer le contenu du fichier s'il existe
+    open(filename, "w").close()
+
     settings = get_project_settings()
     settings.set("FEEDS", {
         filename: {

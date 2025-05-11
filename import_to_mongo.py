@@ -16,15 +16,16 @@ for filename in os.listdir(OUTPUT_DIR):
     if filename.endswith(".json"):
         product_collection = filename.replace(".json", "")  # nom de la collection
         collection = db[product_collection]
+        file_path = os.path.join(OUTPUT_DIR, filename)
 
-        with open(os.path.join(OUTPUT_DIR, filename), encoding='utf-8') as f:
+        with open(file_path, encoding='utf-8') as f:
             try:
                 data = json.load(f)
                 if isinstance(data, list) and data:
                     inserted = 0
                     for item in data:
                         item['imported_at'] = datetime.utcnow()
-                        key = item["url"] + datetime.utcnow().strftime("%Y-%m-%d")
+                        key = item["url"] + datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
                         item['unique_key'] = md5(key.encode()).hexdigest()
                         if not collection.find_one({"unique_key": item['unique_key']}):
                             collection.insert_one(item)
@@ -39,3 +40,5 @@ for filename in os.listdir(OUTPUT_DIR):
                     print(f"❌ Format inattendu dans : {filename}")
             except json.JSONDecodeError as e:
                 print(f"❌ Erreur JSON dans {filename}: {e}")
+        # Suppression du fichier après traitement
+        os.remove(file_path)

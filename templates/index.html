@@ -1,14 +1,72 @@
 <!DOCTYPE html>
-<html>
-<head><title>Ajout produit</title></head>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ajout produit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: auto;
+      padding: 2em;
+    }
+    label {
+      display: block;
+      margin-top: 1em;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5em;
+      margin-top: 0.3em;
+    }
+    small {
+      color: #555;
+    }
+    input[type="submit"] {
+      margin-top: 2em;
+      padding: 0.6em 1.5em;
+    }
+  </style>
+</head>
 <body>
-  <h1>Ajouter un produit</h1>
+  <h1>Ajouter un produit à surveiller</h1>
   <form method="post">
-    Nom produit : <input name="product_name"><br>
-    URL Amazon : <input name="amazon"> <small>ex: https://www.amazon.com/Apple-iPhone-Starlight-T-Mobile-Renewed/dp/B0BN74TKH5</small><br>
-    URL eBay : <input name="ebay"> <small>ex: https://www.ebay.com/itm/226447947273</small><br>
-    URL BestBuy : <input name="bestbuy"> <small>ex: https://www.bestbuy.com/site/apple-iphone-14-128gb-unlocked-blue/6507560.p?skuId=6507560</small><br>
-    <input type="submit" value="Lancer scraping">
+    <label>
+      Nom du produit :
+      <input name="product_name" type="text" required>
+    </label>
+
+    <label>
+      URL Amazon :
+      <input name="amazon" type="text"
+             required
+             pattern="https:\/\/www\.amazon\.com\/.*"
+             placeholder="https://www.amazon.com/..."
+      >
+      <small>ex: https://www.amazon.com/Apple-iPhone-Starlight...</small>
+    </label>
+
+    <label>
+      URL eBay :
+      <input name="ebay" type="text"
+             required
+             pattern="https:\/\/www\.ebay\.com\/.*"
+             placeholder="https://www.ebay.com/..."
+      >
+      <small>ex: https://www.ebay.com/itm/...</small>
+    </label>
+
+    <label>
+      URL BestBuy :
+      <input name="bestbuy" type="text"
+             required
+             pattern="https:\/\/www\.bestbuy\.com\/.*"
+             placeholder="https://www.bestbuy.com/..."
+      >
+      <small>ex: https://www.bestbuy.com/site/...</small>
+    </label>
+
+    <input type="submit" value="Lancer le scraping">
   </form>
 </body>
 </html>

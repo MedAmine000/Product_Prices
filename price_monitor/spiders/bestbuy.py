@@ -18,7 +18,7 @@ class BestbuySpider(BaseSpider):
         logging.info("Initialisation du spider BestBuy")
         super().__init__(*args, **kwargs)
         chrome_options = Options()
-        # chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--no-sandbox")
         self.driver = webdriver.Chrome(service=Service("C:/Drivers/chromedriver-win64/chromedriver.exe"), options=chrome_options)

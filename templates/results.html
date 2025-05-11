@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Résultats du scraping</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9fbfc;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 40px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+      padding: 25px;
+      margin-bottom: 35px;
+    }
+
+    .product-card h2 {
+      color: #007bff;
+      margin-top: 0;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+
+    .retailer-section {
+      margin-top: 20px;
+    }
+
+    .retailer-label {
+      display: inline-block;
+      font-weight: bold;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .amazon { background-color: #ff9900; }
+    .bestbuy { background-color: #0046be; }
+    .ebay { background-color: #86b817; }
+
+    .retailer-prices {
+      margin: 8px 0 20px 15px;
+      padding-left: 10px;
+      border-left: 2px solid #ccc;
+    }
+
+    .retailer-prices li {
+      margin: 5px 0;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      margin-right: 12px;
+      font-size: 14px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .warning {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📦 Résultats du scraping</h1>
+
+  {% for product, docs in grouped_results.items() %}
+    <div class="product-card">
+      <h2>{{ product }}</h2>
+
+      {% set retailers = ['amazon', 'bestbuy', 'ebay'] %}
+      {% for retailer in retailers %}
+        {% set prices = docs | selectattr("retailer", "equalto", retailer) | list %}
+        {% if prices %}
+          <div class="retailer-section">
+            <div class="retailer-label {{ retailer }}">{{ retailer.capitalize() }}</div>
+            <ul class="retailer-prices">
+              {% for doc in prices %}
+                <li>{{ doc.price }} €</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      <!-- Actions -->
+      <form method="post" action="/update/{{ product }}" style="display:inline;">
+        <button class="btn">🔄 Mettre à jour</button>
+      </form>
+
+      <form method="get" action="/evolution/{{ product }}" style="display:inline;">
+        <button class="btn">📈 Voir l’évolution</button>
+      </form>
+
+      <form method="post" action="/schedule/{{ product }}" style="margin-top: 10px;">
+        <label for="hour_{{ product }}">🕒 Heure de mise à jour automatique :</label>
+        <input type="time" name="cron_hour" required>
+        <button class="btn" style="background-color: #28a745;">Activer le suivi quotidien</button>
+      </form>
+
+    </div>
+  {% endfor %}
+
+</body>
+</html>

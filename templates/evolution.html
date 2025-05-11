@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Évolution du prix — {{ product_name }}</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial; margin: 40px; }
+    h1 { text-align: center; }
+    #chart-container { width: 80%; max-width: 900px; margin: auto; }
+  </style>
+</head>
+<body>
+
+<h1>📈 Suivi du prix : {{ product_name }}</h1>
+
+<div id="chart-container">
+  <canvas id="priceChart"></canvas>
+</div>
+
+<script>
+  const chartData = {{ chart_data | tojson }};
+  const ctx = document.getElementById('priceChart').getContext('2d');
+
+  const datasets = Object.entries(chartData).map(([retailer, data], idx) => ({
+    label: retailer,
+    data: data.prices,
+    borderColor: ['#f44336', '#2196f3', '#4caf50'][idx % 3],
+    fill: false,
+    tension: 0.2,
+    pointRadius: 4,
+    pointHoverRadius: 6
+  }));
+
+  const labels = chartData[Object.keys(chartData)[0]].dates;
+
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: datasets
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Évolution des prix par plateforme'
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y} €`
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Date' } },
+        y: { title: { display: true, text: 'Prix (€)' }, beginAtZero: false }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
