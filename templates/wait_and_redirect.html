@@ -1,11 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <meta http-equiv="refresh" content="3;url=/results">
-  <title>Traitement en cours...</title>
+  <meta http-equiv="refresh" content="120;url=/results">
+  <meta charset="UTF-8">
+  <title>🕹️ Lancement du Scraping...</title>
+  <style>
+    body {
+      background-color: #1b1b1b;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+      padding-top: 80px;
+    }
+    .gamebox {
+      display: inline-block;
+      border: 2px dashed #00ff00;
+      padding: 30px;
+      border-radius: 10px;
+      background-color: #111;
+    }
+    .click-btn {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #00ff00;
+      border: none;
+      color: #111;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .loader {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h2>🕐 Traitement en cours...</h2>
-  <p>Veuillez patienter quelques secondes. Vous allez être redirigé automatiquement vers les résultats.</p>
+  <div class="gamebox">
+    <h2>🚀 Scraping en cours...</h2>
+    <p>Nous interrogeons les serveurs secrets d’Amazon, eBay et BestBuy...</p>
+
+    <div class="loader">Chargement <span id="dots">.</span></div>
+
+    <button class="click-btn" onclick="clickBoost()">💥 Cliquez ici pour booster le scraping !</button>
+
+    <p style="margin-top: 20px; font-size: 14px;">(ou détendez-vous, vous serez redirigé automatiquement dans 2 min)</p>
+  </div>
+
+  <script>
+    let dots = document.getElementById("dots");
+    setInterval(() => {
+      dots.textContent = dots.textContent.length < 3 ? dots.textContent + "." : ".";
+    }, 500);
+
+    function clickBoost() {
+      alert("🔥 Votre clic a envoyé un signal aux serveurs. Accélération engagée !");
+    }
+  </script>
 </body>
 </html>

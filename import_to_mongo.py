@@ -25,7 +25,7 @@ for filename in os.listdir(OUTPUT_DIR):
                     inserted = 0
                     for item in data:
                         item['imported_at'] = datetime.utcnow()
-                        key = item["url"] + datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+                        key = item["url"] + datetime.utcnow().strftime("%Y-%m-%d %H:%M")
                         item['unique_key'] = md5(key.encode()).hexdigest()
                         if not collection.find_one({"unique_key": item['unique_key']}):
                             collection.insert_one(item)

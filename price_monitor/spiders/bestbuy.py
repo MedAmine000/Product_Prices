@@ -62,14 +62,19 @@ class BestbuySpider(BaseSpider):
             item['title'] = title_xpath.strip()
 
         # Extraire le prix
-        price_text = response.css("div.priceView-hero-price span[aria-hidden='true']::text").get(default="")
+        # Essai 1 : méthode actuelle
+        price_text = response.css("div.priceView-hero-price span[aria-hidden='true']::text").get()
+
+        # Fallback : nouvelle méthode si le prix n’a pas été trouvé
+        if not price_text:
+            alt_price = response.css("div#large-customer-price::text").get()
+            price_text = alt_price
+
         if price_text:
             item['price'] = float(price_text.replace("$", "").replace(",", "").strip())
         else:
             item['price'] = None
 
-        logging.info(f"Titre : {item['title']}")
-        logging.info(f"Prix : {item['price']}")
 
         yield item
 

@@ -132,76 +132,18 @@
         <button class="btn">🔄 Mettre à jour</button>
       </form>
 
-      <button class="btn" type="button" onclick="toggleGraph('{{ product }}')">📈 Afficher l’évolution</button>
-
+      <form method="get" action="/evolution/{{ product }}" style="display:inline;">
+        <button class="btn">📈 Voir l’évolution</button>
+      </form>
 
       <form method="post" action="/schedule/{{ product }}" style="margin-top: 10px;">
         <label for="hour_{{ product }}">🕒 Heure de mise à jour automatique :</label>
         <input type="time" name="cron_hour" required>
         <button class="btn" style="background-color: #28a745;">Activer le suivi quotidien</button>
       </form>
-      <!-- Conteneur du graphe -->
-      <div id="chart-container-{{ product }}" style="display: none; margin-top: 20px;">
-        <canvas id="chart-{{ product }}"></canvas>
-      </div>
-
-
 
     </div>
   {% endfor %}
 
 </body>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  function toggleGraph(product) {
-    const container = document.getElementById(`chart-container-${product}`);
-    const canvas = document.getElementById(`chart-${product}`);
-
-    if (container.style.display === "none") {
-      // Affiche et charge le graphe
-      fetch(`/evolution-data/${product}`)
-        .then(res => res.json())
-        .then(data => {
-          container.style.display = "block";
-
-          const ctx = canvas.getContext('2d');
-          const datasets = Object.entries(data).map(([retailer, val], idx) => ({
-            label: retailer,
-            data: val.prices,
-            borderColor: ['#f44336', '#2196f3', '#4caf50'][idx % 3],
-            fill: false,
-            tension: 0.2,
-            pointRadius: 3,
-            pointHoverRadius: 6
-          }));
-
-          new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: data[Object.keys(data)[0]].dates,
-              datasets: datasets
-            },
-            options: {
-              plugins: {
-                title: {
-                  display: true,
-                  text: `Évolution des prix pour ${product}`
-                }
-              },
-              scales: {
-                x: { title: { display: true, text: "Date" } },
-                y: { title: { display: true, text: "Prix (€)" }, beginAtZero: false }
-              }
-            }
-          });
-        });
-    } else {
-      container.style.display = "none";
-      container.innerHTML = `<canvas id="chart-${product}"></canvas>`;  // Reset
-    }
-  }
-</script>
-
-
 </html>
