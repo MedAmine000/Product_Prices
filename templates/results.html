@@ -81,6 +81,9 @@
       margin-top: 4px;
       font-style: italic;
     }
+
+
+
   </style>
 </head>
 <body>
@@ -97,11 +100,23 @@
         {% if prices %}
           <div class="retailer-section">
             <div class="retailer-label {{ retailer }}">{{ retailer.capitalize() }}</div>
+            {% set sorted_prices = prices | sort(attribute="when", reverse=True) %}
+            {% set last = sorted_prices[0].price %}
+            {% set previous = sorted_prices[1].price if sorted_prices|length > 1 else last %}
+
             <ul class="retailer-prices">
-              {% for doc in prices %}
-                <li>{{ doc.price }} €</li>
-              {% endfor %}
+              <li>
+                {{ last }} €
+                {% if last > previous %}
+                  <span style="color:red;">🔺</span>
+                {% elif last < previous %}
+                  <span style="color:green;">🔻</span>
+                {% else %}
+                  <span style="color:gray;">⏸️</span>
+                {% endif %}
+              </li>
             </ul>
+
           </div>
         {% endif %}
       {% endfor %}
