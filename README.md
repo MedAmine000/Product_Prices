@@ -101,7 +101,7 @@ Dans `configs/Urls.json`, ajoutez une entrée pour chaque produit à surveiller,
 Ensuite, exécutez la commande suivante en remplaçant `<nom_du_produit>` par le nom ou l'identifiant du produit à surveiller :
 
 ```bash
-python run_all_spiders.py <nom_du_produit>
+python run_all_spiders.py --product <nom_du_produit>
 ```
 
 
