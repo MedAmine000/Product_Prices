@@ -31,7 +31,7 @@ Ce projet est une plateforme complète de **monitoring de prix multi-sites** (Am
 ### 1. Clone du projet
 
 ```bash
-git clone https://github.com/votre-repo/price_monitor.git
+git clone https://github.com/MedAmine000/price_monitor.git
 cd price_monitor
 ```
 
