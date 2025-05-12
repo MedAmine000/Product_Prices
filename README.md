@@ -93,11 +93,11 @@ Dans `configs/Urls.json`, ajoutez une entrée pour chaque produit à surveiller,
 
 ```json
 {
-    "iphone_15": {
-        "amazon": "https://www.amazon.com/dp/B0CHX1Z1Z5",
-        "ebay": "https://www.ebay.com/itm/314748392001",
-        "bestbuy": "https://www.bestbuy.com/site/apple-iphone-15/6525161.p"
-    }
+  "IPHONE 14": [
+    "https://www.amazon.com/Apple-iPhone-Starlight-T-Mobile-Renewed/dp/B0BN74TKH5",
+    "https://www.bestbuy.com/site/apple-iphone-14-128gb-unlocked-blue/6507560.p?skuId=6507560",
+    "https://www.ebay.com/itm/226447947273"
+  ]
 }
 ```
 
