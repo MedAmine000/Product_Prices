@@ -8,6 +8,7 @@ Ce projet est une plateforme complète de **monitoring de prix multi-sites** (Am
 
 - Python 3.10+
 - Scrapy
+- BestBuy API
 - Selenium (pour pages dynamiques)
 - Flask (interface web)
 - MongoDB (stockage structuré)
@@ -109,6 +110,36 @@ python run_all_spiders.py --product <nom_du_produit>
 
 
 Cela déclenchera les spiders pour le produit spécifié et collectera les prix sur les différents sites.
+
+---
+---
+
+### 🔑 Accès aux données BestBuy
+
+#### Méthode alternative (sans clé API)
+
+Au lieu d'utiliser l'API officielle BestBuy qui nécessite une clé, nous utilisons une approche asynchrone qui :
+- Fait des requêtes HTTP directes
+- Utilise le SKU extrait de l'URL du produit
+- Récupère les données via les endpoints publics de BestBuy
+
+```python
+# Exemple d'extraction du SKU depuis une URL BestBuy
+url = "https://www.bestbuy.com/site/apple-iphone-14-128gb-unlocked-blue/6507560.p"
+sku = "6507560"  # Extrait de l'URL
+
+# L'URL de requête utilisée
+api_url = f"https://www.bestbuy.com/api/tcfb/model.json?paths=%5B%5B%22shop%22%2C%22scds%22%2C%22v2%22%2C%22page%22%2C%22tenants%22%2C%22bbypres%22%2C%22pages%22%2C%22globalnavigationv5sv%22%2C%22header%22%5D%2C%5B%22shop%22%2C%22buttonstate%22%2C%22v5%22%2C%22item%22%2C%22skus%22%2C{sku}%5D%5D&method=get"
+```
+
+#### Avantages de cette approche
+- Pas besoin de clé API
+- Données en temps réel
+- Requêtes asynchrones plus rapides
+- Même format de données que l'API officielle
+
+---
+---
 
 
 ### 2. Importer dans MongoDB
