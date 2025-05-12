@@ -1,100 +1,165 @@
+# 📦 Price Monitor — Suivi automatique des prix
 
-
----
-
-
-#### b. **Installer les Bibliothèques Python**
-- Installez les bibliothèques nécessaires en exécutant la commande suivante dans un terminal :
-  ```bash
-  pip install scrapy selenium
-  ```
-
-#### c. **Télécharger Chrome et ChromeDriver**
-- Téléchargez et installez Google Chrome.
-- Téléchargez la version correspondante de ChromeDriver depuis [ChromeDriver Downloads](https://chromedriver.chromium.org/downloads).
-- Placez le fichier `chromedriver.exe` dans un dossier accessible, par exemple : chromedriver-win64.
+Ce projet est une plateforme complète de **monitoring de prix multi-sites** (Amazon, eBay, BestBuy), intégrant des spiders Scrapy, une base MongoDB, une interface Flask et une automatisation via cron ou tâches Windows.
 
 ---
 
+## 🧰 Technologies utilisées
 
+- Python 3.10+
+- Scrapy
+- Selenium (pour pages dynamiques)
+- Flask (interface web)
+- MongoDB (stockage structuré)
+- Chart.js (visualisation des prix)
+- Cron / Planificateur de tâches (pour l’automatisation)
 
-#### a. **Structure du Projet**
-Voici la structure du projet que tu dois avoir :
+---
+
+## 🚀 Fonctionnalités
+
+- Ajout d’un produit + 3 liens (Amazon, eBay, BestBuy)
+- Lancement automatique des spiders selon les URL
+- Insertion intelligente dans MongoDB (évite les doublons)
+- Visualisation web des prix et de leur évolution
+- Mise à jour manuelle ou automatique (journalier)
+
+---
+
+## 🖥️ Installation
+
+### 1. Clone du projet
+
+```bash
+git clone https://github.com/votre-repo/price_monitor.git
+cd price_monitor
 ```
-price_monitor/
-├── price_monitor/
-│   ├── spiders/
-│   │   ├── base_spider.py
-│   │   ├── bestbuy.py
-│   ├── settings.py
-├── outputs/
-├── congigs/
-│   ├── Urls.json
+
+### 2. Environnement virtuel recommandé
+
+```bash
+python -m venv venv
+source venv/bin/activate  # ou .\venv\Scripts\activate sur Windows
 ```
 
-- Placez le fichier bestbuy.py dans le dossier `spiders`.
+### 3. Dépendances
 
-#### b. **Vérifier le Chemin de ChromeDriver**
-- Dans le fichier bestbuy.py, vérifiez que le chemin vers `chromedriver.exe` est correct :
-  ```python
-  self.driver = webdriver.Chrome(service=Service("C:/Drivers/chromedriver-win64/chromedriver.exe"), options=chrome_options)
-  ```
+```bash
+pip install -r requirements.txt
+```
 
----
+### 4. Installez MongoDB
 
-### 3. **Exécuter le Script**
-exécuter le script en suivant ces étapes :
-
-#### a. **Se Placer dans le Répertoire du Projet**
-- Ouvrez un terminal et naviguez vers le dossier racine du projet :
-  ```bash
-  cd path/to/price_monitor
-  ```
-
-#### b. **Lancer le Spider**
-- Exécutez la commande suivante pour lancer le spider et sauvegarder les résultats dans un fichier JSON :
-  ```bash
-  scrapy crawl bestbuy.com -o outputs/bestbuy.json
-  ```
-
-#### c. **Vérifier les Résultats**
-- Les résultats seront sauvegardés dans le fichier bestbuy.json.
+- [MongoDB Community Edition](https://www.mongodb.com/try/download/community)
+- Lancer MongoDB sur `mongodb://localhost:27017`
 
 ---
 
-### 4. **Dépannage**
-Si tu rencontre des problèmes
+## 🕸️ Exécution manuelle
 
-#### a. **Problème avec ChromeDriver**
-- Vérifiez que la version de ChromeDriver correspond à la version de Google Chrome installée.
-- Si nécessaire, téléchargez la bonne version depuis [ChromeDriver Downloads](https://chromedriver.chromium.org/downloads).
+### 1. Configuration du driver Selenium
 
-#### b. **Problème avec les Sélecteurs CSS**
-- Si les données ne sont pas extraites correctement, vérifiez les sélecteurs CSS dans le fichier bestbuy.py :
-  - **Titre** : `h1.font-best-buy::text`
-  - **Prix** : `span[data-automation='product-price'] span::text`
+Pour scraper des pages dynamiques (ex : Amazon), Selenium nécessite un driver adapté à votre navigateur (ex : ChromeDriver pour Chrome).
 
-#### c. **Problème avec `robots.txt`**
-- Si le spider est bloqué par `robots.txt`, désactivez cette restriction dans `settings.py` :
-  ```python
-  ROBOTSTXT_OBEY = False
-  ```
+1. **Téléchargez le driver** :
+    - [ChromeDriver](https://sites.google.com/chromium.org/driver/)
+    - [GeckoDriver (Firefox)](https://github.com/mozilla/geckodriver/releases)
 
----
+2. **Placez le fichier du driver** dans un dossier. Par défaut, le webdriver Chrome est attendu à l’emplacement `C:/Drivers/chromedriver-win64/chromedriver.exe`. Créez ce dossier et placez-y le fichier du driver pour un fonctionnement immédiat, sans modification du code.
 
-### 5. **Personnalisation**
-Si votre collègue souhaite scraper d'autres pages ou produits, il peut modifier l'URL dans la méthode `start` :
+3. **Exemple d’utilisation dans un spider** :
+
 ```python
-url = "https://www.bestbuy.ca/fr-ca/produit/16553671"
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument('--headless')  # Optionnel : mode sans interface
+driver = webdriver.Chrome(options=options, executable_path='C:/Drivers/chromedriver-win64/chromedriver.exe')
+driver.get('https://www.amazon.com/')
+# ...  code de scraping ...
+driver.quit()
+```
+
+
+> **Astuce :** Vérifiez que la version du driver correspond à celle de votre navigateur.
+
+### 2. Lancer les spiders
+
+Dans `configs/Urls.json`, ajoutez une entrée pour chaque produit à surveiller, par exemple :
+
+```json
+{
+    "iphone_15": {
+        "amazon": "https://www.amazon.com/dp/B0CHX1Z1Z5",
+        "ebay": "https://www.ebay.com/itm/314748392001",
+        "bestbuy": "https://www.bestbuy.com/site/apple-iphone-15/6525161.p"
+    }
+}
+```
+
+Ensuite, exécutez la commande suivante en remplaçant `<nom_du_produit>` par le nom ou l'identifiant du produit à surveiller :
+
+```bash
+python run_all_spiders.py <nom_du_produit>
+```
+
+
+Cela déclenchera les spiders pour le produit spécifié et collectera les prix sur les différents sites.
+
+
+### 3. Importer dans MongoDB
+
+```bash
+python import_to_mongo.py
 ```
 
 ---
 
-### 6. **Documentation**
-Fournissez également une brève explication du fonctionnement du script :
-- **`start`** : Démarre le scraping avec une URL spécifique.
-- **`parse`** : Utilise Selenium pour charger la page, extrait les données (titre et prix), et les sauvegarde.
+## 🌐 Interface web (Flask)
+
+### Lancer le serveur
+
+```bash
+python app.py
+```
+
+### Accès
+
+> Ouvrir [http://127.0.0.1:5000](http://127.0.0.1:5000) dans votre navigateur
 
 ---
 
-Avec ces instructions, votre collègue devrait être en mesure de configurer et d'exécuter le script de scraping pour Best Buy.
+
+## 📁 Structure
+
+```
+.
+├── app.py                # Interface Flask
+├── configs/Urls.json     # URLs utilisateur
+├── outputs/              # Fichiers JSON générés
+├── import_to_mongo.py    # Insertion MongoDB
+├── run_all_spiders.py    # Orchestrateur de spiders
+├── price_monitor/
+│   └── spiders/
+│       ├── amazon.py
+│       ├── bestbuy.py
+│       └── ebay.py
+├── templates/            # HTML Flask
+└── static/               # CSS, JS
+```
+
+---
+
+
+---
+
+## 🤝 Auteurs
+
+- Projet conçu par **MedAmine** — École IPSSI M1
+
+---
+
+## 📝 Licence
+
+Projet éducatif — usage académique uniquement.
