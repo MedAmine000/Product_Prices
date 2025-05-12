@@ -53,11 +53,9 @@ pip install -r requirements.txt
 - [MongoDB Community Edition](https://www.mongodb.com/try/download/community)
 - Lancer MongoDB sur `mongodb://localhost:27017`
 
----
 
-## 🕸️ Exécution 
 
-### 1. Configuration du driver Selenium
+### 5. Configuration du driver Selenium
 
 Pour scraper des pages dynamiques (ex : Amazon), Selenium nécessite un driver adapté à votre navigateur (ex : ChromeDriver pour Chrome).
 
@@ -84,7 +82,12 @@ driver.quit()
 
 > **Astuce :** Vérifiez que la version du driver correspond à celle de votre navigateur.
 
-### 2. Lancer les spiders
+
+---
+
+## 🕸️ Exécution 
+
+### 1. Lancer les spiders
 
 Dans `configs/Urls.json`, ajoutez une entrée pour chaque produit à surveiller, par exemple :
 
@@ -108,7 +111,7 @@ python run_all_spiders.py --product <nom_du_produit>
 Cela déclenchera les spiders pour le produit spécifié et collectera les prix sur les différents sites.
 
 
-### 3. Importer dans MongoDB
+### 2. Importer dans MongoDB
 
 ```bash
 python import_to_mongo.py
