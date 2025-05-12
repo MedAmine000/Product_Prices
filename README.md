@@ -31,11 +31,11 @@ Ce projet est une plateforme complète de **monitoring de prix multi-sites** (Am
 ### 1. Clone du projet
 
 ```bash
-git clone https://github.com/votre-repo/price_monitor.git
+git clone https://github.com/MedAmine000/price_monitor.git
 cd price_monitor
 ```
 
-### 2. Environnement virtuel recommandé
+### 2. Environnement virtuel (Optionnel)
 
 ```bash
 python -m venv venv
@@ -85,7 +85,7 @@ driver.quit()
 
 ---
 
-## 🕸️ Exécution 
+## 🕸️ Exécution Manuelle
 
 ### 1. Lancer les spiders
 
@@ -93,11 +93,11 @@ Dans `configs/Urls.json`, ajoutez une entrée pour chaque produit à surveiller,
 
 ```json
 {
-    "iphone_15": {
-        "amazon": "https://www.amazon.com/dp/B0CHX1Z1Z5",
-        "ebay": "https://www.ebay.com/itm/314748392001",
-        "bestbuy": "https://www.bestbuy.com/site/apple-iphone-15/6525161.p"
-    }
+  "IPHONE 14": [
+    "https://www.amazon.com/Apple-iPhone-Starlight-T-Mobile-Renewed/dp/B0BN74TKH5",
+    "https://www.bestbuy.com/site/apple-iphone-14-128gb-unlocked-blue/6507560.p?skuId=6507560",
+    "https://www.ebay.com/itm/226447947273"
+  ]
 }
 ```
 
