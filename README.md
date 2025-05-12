@@ -35,7 +35,7 @@ git clone https://github.com/votre-repo/price_monitor.git
 cd price_monitor
 ```
 
-### 2. Environnement virtuel recommandé
+### 2. Environnement virtuel (Optionnel)
 
 ```bash
 python -m venv venv
