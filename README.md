@@ -85,7 +85,7 @@ driver.quit()
 
 ---
 
-## 🕸️ Exécution 
+## 🕸️ Exécution Manuelle
 
 ### 1. Lancer les spiders
 
