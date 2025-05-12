@@ -55,7 +55,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🕸️ Exécution manuelle
+## 🕸️ Exécution 
 
 ### 1. Configuration du driver Selenium
 
