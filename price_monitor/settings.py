@@ -64,6 +64,14 @@ ROBOTSTXT_OBEY = False
 #     'price_monitor.middlewares.ProxyMiddleware': 350,
 # }
 
+# DOWNLOAD_HANDLERS = {
+#     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+#     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+# }
+
+# TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+
+# PLAYWRIGHT_BROWSER_TYPE = "chromium"
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {

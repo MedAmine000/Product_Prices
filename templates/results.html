@@ -89,17 +89,29 @@
 <body>
 
   <h1>📦 Résultats du scraping</h1>
+  <div style="text-align:center; margin-bottom:30px;">
+    <a href="/" class="btn" style="background-color:#6c757d;">🏠 Retour à l’accueil</a>
+  </div>
 
   {% for product, docs in grouped_results.items() %}
     <div class="product-card">
-      <h2>{{ product }}</h2>
+      <h2>
+        {{ product }}
+        {% if docs and docs[0].title %}
+          <span style="font-size:16px; color:#888; font-weight:normal;">— {{ docs[0].title }}</span>
+        {% endif %}
+      </h2>
 
       {% set retailers = ['amazon', 'bestbuy', 'ebay'] %}
       {% for retailer in retailers %}
         {% set prices = docs | selectattr("retailer", "equalto", retailer) | list %}
+        {% set product_url = prices[0].url if prices[0].url is defined else '#' %}
+
         {% if prices %}
           <div class="retailer-section">
-            <div class="retailer-label {{ retailer }}">{{ retailer.capitalize() }}</div>
+            <a href="{{ product_url }}" target="_blank" style="text-decoration:none;">
+              <div class="retailer-label {{ retailer }}">{{ retailer.capitalize() }}</div>
+            </a>
             {% set sorted_prices = prices | sort(attribute="when", reverse=True) %}
             {% set last = sorted_prices[0].price %}
             {% set previous = sorted_prices[1].price if sorted_prices|length > 1 else last %}
